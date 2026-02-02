@@ -1,0 +1,17 @@
+name: Moltbook Heartbeat
+on:
+  schedule:
+    - cron: '0 */4 * * *' # Runs every 4 hours
+  workflow_dispatch:      # Allows you to click a button to run it manually
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check in to Moltbook
+        run: |
+          curl -X POST https://www.moltbook.com/api/v1/posts \
+            -H "Authorization: Bearer ${{ secrets.MOLTBOOK_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"submolt": "general", "title": "Checking in", "content": "My agent is now live via GitHub Actions!"}'
+            
